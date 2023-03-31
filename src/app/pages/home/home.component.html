@@ -1,0 +1,25 @@
+<ng-template #userTemplate let-users>
+    <div *ngFor="let user of users">
+        <div class="user">
+            <img [src]="user.imagePath" />
+            <p>{{ user.name }} ({{ user.code.split('.').at(-1) }})</p>
+        </div>
+        <ng-container *ngIf="userHasChildren(user)">
+            <div class="children">
+                <ng-container 
+                    [ngTemplateOutlet]="userTemplate" 
+                    [ngTemplateOutletContext]="{ $implicit: getUserChildren(user) }"
+                >
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>
+<div class="tree" *ngIf="usersTree.length">
+    <ng-container 
+        *ngFor="let userTree of usersTree"
+        [ngTemplateOutlet]="userTemplate" 
+        [ngTemplateOutletContext]="{ $implicit: userTree }"
+    >
+    </ng-container>
+</div>
